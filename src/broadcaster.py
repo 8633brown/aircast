@@ -19,7 +19,7 @@ class Broadcaster(StoppableThread):
         self.io_loop = io_loop
 
         # Will be initialised by the FLAC encoder
-        self.header = io.StringIO()
+        self.header = io.BytesIO()
 
     def add_listener(self, cb):
         self.listeners.append(cb)
