@@ -16,3 +16,8 @@ $ vagrant up
 ```
 
 The AirCast Airplay emulator should now be visible on your local network, with the same name as your chromecast device.
+
+Docker
+------------
+
+git clone the repo and run `docker-compose up`
