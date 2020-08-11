@@ -9,21 +9,22 @@ class Caster:
         self.stream_url = stream_url
 
         logger.info("Searching for Chromecast devices...")
-        chromecast_list = pychromecast.get_chromecasts_as_dict().keys()
-        logger.debug("Found Chromecasts: %s", chromecast_list)
+        # chromecast_list = pychromecast.get_chromecasts_as_dict().keys()
+        casts, browser = pychromecast.get_chromecasts()
+        pychromecast.discovery.stop_discovery(browser)
+        logger.debug("Found Chromecasts: %s", casts)
 
-        if not chromecast_list:
+        if len(casts) == 0:
             raise RuntimeError("Unable to find a Chromecast on the local network.")
 
-        chromecast_name = chromecast_list[0]
-        if len(chromecast_list) > 1:
-            logger.warn("Multiple Chromecast devices detected, using defaulting to Chromecast '%s'", chromecast_name)
+        cast = casts[0]
+        if len(casts) > 1:
+            logger.warn("Multiple Chromecast devices detected, using defaulting to Chromecast '%s'", cast.name)
 
-        logger.info("Connecting to Chromecast '%s'", chromecast_name)
-        self.chromecast = pychromecast.get_chromecast(
-            friendly_name=chromecast_name)
+        logger.info("Connecting to Chromecast '%s'", cast.name)
+        self.chromecast = cast
         self.chromecast.wait()
-        logger.info("Connected to Chromecast '%s'", chromecast_name)
+        logger.info("Connected to Chromecast '%s'", cast.name)
 
     def start_stream(self):
         logger.info("Starting stream of URL %s on Chromecast '%s'",

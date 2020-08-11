@@ -4,6 +4,7 @@ import struct
 
 
 def get_ip_address(ifname):
+    print(ifname)
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     return socket.inet_ntoa(
         fcntl.ioctl(s.fileno(),
