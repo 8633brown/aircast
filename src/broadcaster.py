@@ -1,8 +1,8 @@
-import Queue
+import queue
 import logging
 
 from common import StoppableThread
-from StringIO import StringIO
+import io
 
 from encoder import BaseEncoder
 
@@ -19,7 +19,7 @@ class Broadcaster(StoppableThread):
         self.io_loop = io_loop
 
         # Will be initialised by the FLAC encoder
-        self.header = StringIO()
+        self.header = io.StringIO()
 
     def add_listener(self, cb):
         self.listeners.append(cb)
@@ -55,7 +55,7 @@ class Broadcaster(StoppableThread):
 
             try:
                 encoder.process_pcm(self.sample_queue.get())
-            except Queue.Empty:
+            except queue.Empty:
                 pass
 
         logger.info("Stopping encoder")
